@@ -1,30 +1,29 @@
+import Product from "../model/Product.js";
+
 // getting all products
-export const getAllProducts = (req, res) => {
+export const getAllProducts = async (req, res) => {
+  const data = await Product.findAll();
+
   res.json({
     status: "success",
-    data: {
-      id: 1,
-      name: "ali",
-      add: "peshawar",
-      users: "all users",
-    },
+    data,
   });
 };
 
 // posting products
-export const postProducts = (req, res) => {
+export const postProducts = async (req, res) => {
+  const data = await Product.create(req.body);
+
   res.json({
     status: "success",
-    data: {
-      id: 1,
-      name: "ali",
-      add: "peshawar",
-    },
+    message: "data created",
+    data,
   });
 };
 
 // delete products
-export const deleteProducts = (req, res) => {
+export const deleteProducts = async (req, res) => {
+  const data = await Product.destroy({ where: { id: req.params.id } });
   res.json({
     status: "success",
     data: {
