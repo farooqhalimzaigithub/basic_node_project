@@ -1,13 +1,17 @@
 import Product from "../model/Product.js";
 
 // getting all products
-export const getAllProducts = async (req, res) => {
-  const data = await Product.findAll();
 
-  res.json({
-    status: "success",
-    data,
-  });
+export const getAllProducts = async (req, res) => {
+  try {
+    const data = await Product.findAll();
+    res.json({
+      status: "success",
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // posting products
@@ -26,22 +30,24 @@ export const deleteProducts = async (req, res) => {
   const data = await Product.destroy({ where: { id: req.params.id } });
   res.json({
     status: "success",
-    data: {
-      id: 1,
-      name: "ali",
-      add: "peshawar",
-    },
+    message: "data deleted with id " + req.params.id,
   });
 };
 
 // update products
-export const updateProducts = (req, res) => {
-  res.json({
-    status: "success",
-    data: {
-      id: 1,
-      name: "ali",
-      add: "peshawar",
-    },
-  });
+export const updateProducts = async (req, res) => {
+  try {
+    const data = await Product.update(req.body, {
+      where: { id: req.params.id },
+    });
+    res.json({
+      status: "success",
+      message: "data updated",
+    });
+  } catch (error) {
+    res.json({
+      status: "fail",
+      message: error,
+    });
+  }
 };
